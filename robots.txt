@@ -1,0 +1,31 @@
+# Robots.txt для Tutorld
+# Контроль доступа поисковых систем
+
+# Правила для всех ботов
+User-agent: *
+# Разрешить индексацию основных страниц
+Allow: /
+Allow: /terms/
+Allow: /privacy/
+Allow: /support/
+
+# Запретить индексацию потенциально чувствительных файлов
+Disallow: /_headers
+Disallow: /.well-known/
+Disallow: /security.txt
+
+# Указать карту сайта для поисковиков
+Sitemap: https://tutorld.com/sitemap.xml
+
+# Специфические правила для популярных ботов
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Slurp
+Allow: /
+
+# Ограничение скорости сканирования (если поддерживается)
+Crawl-delay: 1

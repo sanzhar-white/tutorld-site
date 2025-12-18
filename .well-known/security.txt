@@ -1,0 +1,23 @@
+# Security.txt для Tutorld
+# Стандарт RFC 9116 для отчетов о уязвимостях
+
+# Контактная информация для сообщений о безопасности
+Contact: mailto:security@tutorld.com
+
+# Дополнительный контакт
+Contact: mailto:support@tutorld.com
+
+# Шифрование для безопасной связи
+# (Замените на ваш реальный PGP ключ)
+# Encryption: https://tutorld.com/.well-known/pgp-key.txt
+
+# Политика раскрытия уязвимостей
+Policy: https://tutorld.com/security-policy
+
+# Языки, на которых принимаются отчеты
+Preferred-Languages: en, ru
+
+# Канареечное значение для обнаружения изменений
+# Canonical: https://tutorld.com/.well-known/security.txt
+
+# Expires: 2026-12-18T00:00:00.000Z

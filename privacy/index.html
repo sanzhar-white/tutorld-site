@@ -1,99 +1,348 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <title>Privacy Policy — Tutorld</title>
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="robots" content="index, follow" />
+    <meta name="author" content="Tutorld" />
+    <meta name="description" content="Privacy Policy for Tutorld - AI-powered educational platform" />
+    <meta name="keywords" content="tutorld, privacy, policy, data, protection" />
+    <!-- Security meta tags -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'none'; style-src 'self' 'unsafe-inline'; img-src 'none'; font-src 'none'; connect-src 'none'; media-src 'none'; object-src 'none'; frame-src 'none'; worker-src 'none'; manifest-src 'none'; prefetch-src 'none'; upgrade-insecure-requests; block-all-mixed-content" />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <!-- Favicon and icons -->
+    <link rel="icon" type="image/x-icon" href="data:," />
+    <link rel="canonical" href="https://tutorld.com/privacy/" />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        line-height: 1.6;
+        color: #333;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+      }
+
+      .container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        background: white;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        border-radius: 10px;
+        margin-top: 20px;
+        margin-bottom: 20px;
+      }
+
+      .header {
+        text-align: center;
+        padding: 40px 0;
+        border-bottom: 2px solid #f0f0f0;
+        margin-bottom: 40px;
+      }
+
+      .logo {
+        font-size: 2.5em;
+        font-weight: bold;
+        color: #667eea;
+        margin-bottom: 10px;
+        text-decoration: none;
+      }
+
+      h1 {
+        color: #333;
+        font-size: 2em;
+        margin-bottom: 10px;
+        font-weight: 300;
+      }
+
+      .last-updated {
+        color: #666;
+        font-style: italic;
+        margin-bottom: 30px;
+      }
+
+      .nav {
+        background: #f8f9fa;
+        padding: 15px;
+        border-radius: 8px;
+        margin-bottom: 30px;
+        text-align: center;
+      }
+
+      .nav a {
+        color: #667eea;
+        text-decoration: none;
+        margin: 0 15px;
+        padding: 8px 16px;
+        border-radius: 20px;
+        transition: background 0.3s;
+      }
+
+      .nav a:hover {
+        background: #667eea;
+        color: white;
+      }
+
+      .content {
+        padding: 0 20px;
+      }
+
+      .section {
+        margin-bottom: 40px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid #eee;
+      }
+
+      .section:last-child {
+        border-bottom: none;
+      }
+
+      .section h2 {
+        color: #667eea;
+        font-size: 1.5em;
+        margin-bottom: 15px;
+        font-weight: 600;
+      }
+
+      .section h3 {
+        color: #555;
+        font-size: 1.2em;
+        margin: 20px 0 10px 0;
+        font-weight: 500;
+      }
+
+      .section p {
+        margin-bottom: 15px;
+        text-align: justify;
+      }
+
+      .section ul {
+        margin-left: 20px;
+        margin-bottom: 15px;
+      }
+
+      .section li {
+        margin-bottom: 8px;
+        text-align: justify;
+      }
+
+      .highlight {
+        background: #fff3cd;
+        padding: 15px;
+        border-left: 4px solid #ffc107;
+        border-radius: 4px;
+        margin: 20px 0;
+      }
+
+      .highlight strong {
+        color: #856404;
+      }
+
+      .important {
+        background: #f8d7da;
+        padding: 15px;
+        border-left: 4px solid #dc3545;
+        border-radius: 4px;
+        margin: 20px 0;
+      }
+
+      .important strong {
+        color: #721c24;
+      }
+
+      .contact {
+        background: #f8f9fa;
+        padding: 20px;
+        border-radius: 8px;
+        text-align: center;
+        margin-top: 40px;
+      }
+
+      .contact a {
+        color: #667eea;
+        text-decoration: none;
+        font-weight: 500;
+      }
+
+      @media (max-width: 768px) {
+        .container {
+          margin: 10px;
+          padding: 15px;
+        }
+
+        .header {
+          padding: 20px 0;
+        }
+
+        .logo {
+          font-size: 2em;
+        }
+
+        h1 {
+          font-size: 1.5em;
+        }
+
+        .content {
+          padding: 0;
+        }
+      }
+    </style>
   </head>
   <body>
-    <h1>Privacy Policy</h1>
-    <p>
-        Last updated: December 2025
-        
-        Tutorld (“we”, “us”, “our”) operates a mobile application and related services
-        that may include artificial intelligence features, voice and video communication,
-        text messaging, audio processing, and data analysis (collectively, the “Service”).
-        
-        This Privacy Policy explains how information is collected, used, processed, stored,
-        shared, and otherwise handled when you use the Service.
-        
-        By using the Service, you acknowledge and consent to the practices described below.
-        1. Categories of Data We Collect
-        We may collect and process a broad range of data, including but not limited to:
-        1.1 Personal and Account Data
-        Name, username, email address, phone number
-        Account identifiers and authentication data
-        Subscription and payment status (processed by third parties)
-        1.2 Communication Data (VERY IMPORTANT FOR AI / CALLS)
-        When you interact with AI or other users, we may collect and process:
-        Voice recordings
-        Audio streams
-        Call metadata (duration, timestamps, participants)
-        Transcripts generated from speech or text
-        Messages, prompts, responses, and conversation history
-        This data may be processed in real time or stored, depending on functionality.
-        1.3 AI and Generated Data
-        User prompts and inputs
-        AI-generated responses
-        Derived insights, summaries, scores, or analytics
-        Training, evaluation, or improvement signals (where permitted by law)
-        1.4 Automatically Collected Data
-        Device identifiers
-        IP address, region, language
-        Usage events, interactions, feature engagement
-        Crash logs, diagnostics, performance data
-        1.5 Third-Party Data
-        App Store / Google Play subscription information
-        Analytics and attribution data
-        Data from service providers or partners
-        2. How We Use Data
-        We may use collected data for any lawful business purpose, including:
-        Providing and operating AI-powered features
-        Processing voice, audio, and text interactions
-        Improving AI models, algorithms, and system performance
-        Personalizing learning and user experience
-        Analytics, research, and product development
-        Security, fraud prevention, and abuse detection
-        Customer support and communication
-        Legal compliance and enforcement
-        Business operations, reporting, and monetization
-        3. Sharing and Disclosure
-        We may share data with:
-        Cloud infrastructure providers
-        AI and speech processing providers
-        Analytics, monitoring, and logging services
-        Payment processors and subscription platforms
-        Affiliates, contractors, and business partners
-        Authorities where required by law
-        Data may be transferred and processed internationally, subject to safeguards
-        required by applicable laws (including GDPR).
-        4. Data Retention
-        We retain data as long as reasonably necessary to:
-        Provide and improve the Service
-        Fulfill contractual and legal obligations
-        Resolve disputes and enforce agreements
-        Retention periods vary depending on data type and purpose.
-        5. User Rights (GDPR & CCPA)
-        Depending on your jurisdiction, you may have the right to:
-        Access your personal data
-        Request correction or deletion
-        Object to or restrict processing
-        Request data portability
-        Withdraw consent (where applicable)
-        California residents may have additional rights under the CCPA,
-        including the right to know and delete personal information.
-        Requests can be submitted via:
-        support@tutorld.com
-        
-        6. Children’s Privacy
-        The Service is not intended for children under 13 (or under 16 where required).
-        We do not knowingly collect personal data from children.
-        7. Security
-        We apply reasonable technical and organizational safeguards.
-        However, no system is fully secure, and absolute security cannot be guaranteed.
-        8. Changes
-        We may update this Privacy Policy at any time.
-        Continued use of the Service constitutes acceptance of updates.
-        9. Contact
-        support@tutorld.com</p>
+    <div class="container">
+      <div class="header">
+        <a href="/" class="logo">Tutorld</a>
+        <h1>Privacy Policy</h1>
+        <div class="last-updated">Last updated: December 2025</div>
+      </div>
+
+      <div class="nav">
+        <a href="/">Home</a>
+        <a href="/terms/">Terms of Service</a>
+        <a href="/support/">Support</a>
+      </div>
+
+      <div class="content">
+        <div class="section">
+          <p>Tutorld ("we", "us", "our") operates a mobile application and related services that may include artificial intelligence features, voice and video communication, text messaging, audio processing, and data analysis (collectively, the "Service").</p>
+          <p>This Privacy Policy explains how information is collected, used, processed, stored, shared, and otherwise handled when you use the Service.</p>
+          <p>By using the Service, you acknowledge and consent to the practices described below.</p>
+        </div>
+
+        <div class="section">
+          <h2>1. Categories of Data We Collect</h2>
+          <p>We may collect and process a broad range of data, including but not limited to:</p>
+
+          <h3>1.1 Personal and Account Data</h3>
+          <ul>
+            <li>Name, username, email address, phone number</li>
+            <li>Account identifiers and authentication data</li>
+            <li>Subscription and payment status (processed by third parties)</li>
+          </ul>
+
+          <h3 class="important">1.2 Communication Data (VERY IMPORTANT FOR AI / CALLS)</h3>
+          <p>When you interact with AI or other users, we may collect and process:</p>
+          <ul>
+            <li>Voice recordings</li>
+            <li>Audio streams</li>
+            <li>Call metadata (duration, timestamps, participants)</li>
+            <li>Transcripts generated from speech or text</li>
+            <li>Messages, prompts, responses, and conversation history</li>
+          </ul>
+          <p>This data may be processed in real time or stored, depending on functionality.</p>
+
+          <h3>1.3 AI and Generated Data</h3>
+          <ul>
+            <li>User prompts and inputs</li>
+            <li>AI-generated responses</li>
+            <li>Derived insights, summaries, scores, or analytics</li>
+            <li>Training, evaluation, or improvement signals (where permitted by law)</li>
+          </ul>
+
+          <h3>1.4 Automatically Collected Data</h3>
+          <ul>
+            <li>Device identifiers</li>
+            <li>IP address, region, language</li>
+            <li>Usage events, interactions, feature engagement</li>
+            <li>Crash logs, diagnostics, performance data</li>
+          </ul>
+
+          <h3>1.5 Third-Party Data</h3>
+          <ul>
+            <li>App Store / Google Play subscription information</li>
+            <li>Analytics and attribution data</li>
+            <li>Data from service providers or partners</li>
+          </ul>
+        </div>
+
+        <div class="section">
+          <h2>2. How We Use Data</h2>
+          <p>We may use collected data for any lawful business purpose, including:</p>
+          <ul>
+            <li>Providing and operating AI-powered features</li>
+            <li>Processing voice, audio, and text interactions</li>
+            <li>Improving AI models, algorithms, and system performance</li>
+            <li>Personalizing learning and user experience</li>
+            <li>Analytics, research, and product development</li>
+            <li>Security, fraud prevention, and abuse detection</li>
+            <li>Customer support and communication</li>
+            <li>Legal compliance and enforcement</li>
+            <li>Business operations, reporting, and monetization</li>
+          </ul>
+        </div>
+
+        <div class="section">
+          <h2>3. Sharing and Disclosure</h2>
+          <p>We may share data with:</p>
+          <ul>
+            <li>Cloud infrastructure providers</li>
+            <li>AI and speech processing providers</li>
+            <li>Analytics, monitoring, and logging services</li>
+            <li>Payment processors and subscription platforms</li>
+            <li>Affiliates, contractors, and business partners</li>
+            <li>Authorities where required by law</li>
+          </ul>
+          <p>Data may be transferred and processed internationally, subject to safeguards required by applicable laws (including GDPR).</p>
+        </div>
+
+        <div class="section">
+          <h2>4. Data Retention</h2>
+          <p>We retain data as long as reasonably necessary to:</p>
+          <ul>
+            <li>Provide and improve the Service</li>
+            <li>Fulfill contractual and legal obligations</li>
+            <li>Resolve disputes and enforce agreements</li>
+          </ul>
+          <p>Retention periods vary depending on data type and purpose.</p>
+        </div>
+
+        <div class="section">
+          <h2>5. User Rights (GDPR & CCPA)</h2>
+          <p>Depending on your jurisdiction, you may have the right to:</p>
+          <ul>
+            <li>Access your personal data</li>
+            <li>Request correction or deletion</li>
+            <li>Object to or restrict processing</li>
+            <li>Request data portability</li>
+            <li>Withdraw consent (where applicable)</li>
+          </ul>
+          <p>California residents may have additional rights under the CCPA, including the right to know and delete personal information.</p>
+          <p>Requests can be submitted via:</p>
+          <div class="contact">
+            <a href="mailto:support@tutorld.com">support@tutorld.com</a>
+          </div>
+        </div>
+
+        <div class="section">
+          <h2>6. Children's Privacy</h2>
+          <p>The Service is not intended for children under 13 (or under 16 where required). We do not knowingly collect personal data from children.</p>
+        </div>
+
+        <div class="section">
+          <h2>7. Security</h2>
+          <p>We apply reasonable technical and organizational safeguards. However, no system is fully secure, and absolute security cannot be guaranteed.</p>
+        </div>
+
+        <div class="section">
+          <h2>8. Changes</h2>
+          <p>We may update this Privacy Policy at any time. Continued use of the Service constitutes acceptance of updates.</p>
+        </div>
+
+        <div class="section">
+          <h2>9. Contact</h2>
+          <div class="contact">
+            <a href="mailto:support@tutorld.com">support@tutorld.com</a>
+          </div>
+        </div>
+      </div>
+    </div>
   </body>
 </html>

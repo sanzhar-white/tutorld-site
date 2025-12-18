@@ -1,0 +1,31 @@
+# HTTP Security Headers для Tutorld
+# Все пути
+/*
+  # Защита от XSS
+  X-XSS-Protection: 1; mode=block
+  # Защита от MIME sniffing
+  X-Content-Type-Options: nosniff
+  # Защита от clickjacking
+  X-Frame-Options: DENY
+  # Строгая политика транспорта - только HTTPS
+  Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
+  # Политика реферера - только origin для HTTPS
+  Referrer-Policy: strict-origin-when-cross-origin
+  # Content Security Policy - максимально строгая
+  Content-Security-Policy: default-src 'self'; script-src 'none'; style-src 'none'; img-src 'none'; font-src 'none'; connect-src 'none'; media-src 'none'; object-src 'none'; frame-src 'none'; worker-src 'none'; manifest-src 'none'; prefetch-src 'none'; form-action 'none'; upgrade-insecure-requests; block-all-mixed-content
+  # Permissions Policy - отключить все API
+  Permissions-Policy: accelerometer=(), ambient-light-sensor=(), autoplay=(), battery=(), bluetooth=(), browsing-topics=(), camera=(), display-capture=(), document-domain=(), encrypted-media=(), execution-while-not-rendered=(), execution-while-out-of-viewport=(), fullscreen=(), gamepad=(), geolocation=(), gyroscope=(), hid=(), identity-credentials-get=(), idle-detection=(), local-fonts=(), magnetometer=(), microphone=(), midi=(), otp-credentials=(), payment=(), picture-in-picture=(), publickey-credentials-create=(), publickey-credentials-get=(), screen-wake-lock=(), serial=(), speaker-selection=(), storage-access=(), usb=(), web-share=(), window-management=(), xr-spatial-tracking=()
+  # Защита от cross-origin
+  Cross-Origin-Embedder-Policy: require-corp
+  Cross-Origin-Opener-Policy: same-origin
+  Cross-Origin-Resource-Policy: same-origin
+  # Origin-Agent-Cluster - изоляция origin
+  Origin-Agent-Cluster: ?1
+
+# HTML файлы - немного более permissive для корректной работы
+/*.html
+  Content-Security-Policy: default-src 'self'; script-src 'none'; style-src 'none'; img-src 'none'; font-src 'none'; connect-src 'none'; media-src 'none'; object-src 'none'; frame-src 'none'; worker-src 'none'; manifest-src 'none'; prefetch-src 'none'; upgrade-insecure-requests; block-all-mixed-content
+
+# Корневая страница - базовая защита
+/index.html
+  Content-Security-Policy: default-src 'self'; script-src 'none'; style-src 'none'; img-src 'none'; font-src 'none'; connect-src 'none'; media-src 'none'; object-src 'none'; frame-src 'none'; worker-src 'none'; manifest-src 'none'; prefetch-src 'none'; upgrade-insecure-requests; block-all-mixed-content
