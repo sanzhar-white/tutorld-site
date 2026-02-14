@@ -1,31 +1,219 @@
-# HTTP Security Headers для Tutorld
-# Все пути
+# ============================================
+# TUTORLD SECURITY HEADERS - МАКСИМАЛЬНАЯ ЗАЩИТА
+# ============================================
+# Этот файл используется Netlify, Cloudflare Pages и другими CDN
+# Для GitHub Pages используйте meta теги в HTML
+
+# ============================================
+# ГЛОБАЛЬНЫЕ ЗАГОЛОВКИ БЕЗОПАСНОСТИ
+# ============================================
 /*
-  # Защита от XSS
+  # === БАЗОВАЯ ЗАЩИТА ===
+
+  # Защита от XSS атак
   X-XSS-Protection: 1; mode=block
-  # Защита от MIME sniffing
+
+  # Защита от MIME sniffing атак
   X-Content-Type-Options: nosniff
-  # Защита от clickjacking
+
+  # Защита от clickjacking атак
   X-Frame-Options: DENY
-  # Строгая политика транспорта - только HTTPS
-  Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
-  # Политика реферера - только origin для HTTPS
+
+  # Отключить DNS prefetching (утечка информации)
+  X-DNS-Prefetch-Control: off
+
+  # Отключить технологии, которые могут использоваться для атак
+  X-Download-Options: noopen
+  X-Permitted-Cross-Domain-Policies: none
+
+  # === HTTPS И TRANSPORT SECURITY ===
+
+  # HSTS - принудительное использование HTTPS (2 года + preload)
+  Strict-Transport-Security: max-age=63072000; includeSubDomains; preload
+
+  # Ожидать сертификат CT (Certificate Transparency)
+  Expect-CT: max-age=86400, enforce
+
+  # === REFERRER POLICY ===
+
+  # Строгая политика referrer - минимальная утечка информации
   Referrer-Policy: strict-origin-when-cross-origin
-  # Content Security Policy - максимально строгая
-  Content-Security-Policy: default-src 'self'; script-src 'none'; style-src 'none'; img-src 'none'; font-src 'none'; connect-src 'none'; media-src 'none'; object-src 'none'; frame-src 'none'; worker-src 'none'; manifest-src 'none'; prefetch-src 'none'; form-action 'none'; upgrade-insecure-requests; block-all-mixed-content
-  # Permissions Policy - отключить все API
-  Permissions-Policy: accelerometer=(), ambient-light-sensor=(), autoplay=(), battery=(), bluetooth=(), browsing-topics=(), camera=(), display-capture=(), document-domain=(), encrypted-media=(), execution-while-not-rendered=(), execution-while-out-of-viewport=(), fullscreen=(), gamepad=(), geolocation=(), gyroscope=(), hid=(), identity-credentials-get=(), idle-detection=(), local-fonts=(), magnetometer=(), microphone=(), midi=(), otp-credentials=(), payment=(), picture-in-picture=(), publickey-credentials-create=(), publickey-credentials-get=(), screen-wake-lock=(), serial=(), speaker-selection=(), storage-access=(), usb=(), web-share=(), window-management=(), xr-spatial-tracking=()
-  # Защита от cross-origin
+
+  # === CONTENT SECURITY POLICY (CSP) ===
+
+  # Максимально строгая CSP для статического сайта
+  Content-Security-Policy: default-src 'none'; script-src 'none'; style-src 'unsafe-inline'; img-src 'self' data:; font-src 'none'; connect-src 'none'; media-src 'none'; object-src 'none'; child-src 'none'; frame-src 'none'; worker-src 'none'; frame-ancestors 'none'; form-action 'none'; base-uri 'none'; manifest-src 'none'; prefetch-src 'none'; upgrade-insecure-requests; block-all-mixed-content
+
+  # === PERMISSIONS POLICY (ранее Feature-Policy) ===
+
+  # Отключить ВСЕ браузерные API и функции для максимальной безопасности
+  Permissions-Policy: accelerometer=(), ambient-light-sensor=(), autoplay=(), battery=(), bluetooth=(), browsing-topics=(), camera=(), display-capture=(), document-domain=(), encrypted-media=(), execution-while-not-rendered=(), execution-while-out-of-viewport=(), fullscreen=(), gamepad=(), geolocation=(), gyroscope=(), hid=(), identity-credentials-get=(), idle-detection=(), local-fonts=(), magnetometer=(), microphone=(), midi=(), otp-credentials=(), payment=(), picture-in-picture=(), publickey-credentials-create=(), publickey-credentials-get=(), screen-wake-lock=(), serial=(), speaker-selection=(), storage-access=(), usb=(), web-share=(), window-management=(), xr-spatial-tracking=(), interest-cohort=()
+
+  # === CROSS-ORIGIN POLICIES ===
+
+  # Требовать CORP для всех встроенных ресурсов
   Cross-Origin-Embedder-Policy: require-corp
+
+  # Изолировать контекст просмотра
   Cross-Origin-Opener-Policy: same-origin
+
+  # Ограничить доступ к ресурсам
   Cross-Origin-Resource-Policy: same-origin
-  # Origin-Agent-Cluster - изоляция origin
+
+  # === ORIGIN ISOLATION ===
+
+  # Изолировать origin в отдельный процесс
   Origin-Agent-Cluster: ?1
 
-# HTML файлы - немного более permissive для корректной работы
-/*.html
-  Content-Security-Policy: default-src 'self'; script-src 'none'; style-src 'none'; img-src 'none'; font-src 'none'; connect-src 'none'; media-src 'none'; object-src 'none'; frame-src 'none'; worker-src 'none'; manifest-src 'none'; prefetch-src 'none'; upgrade-insecure-requests; block-all-mixed-content
+  # === CACHE CONTROL ===
 
-# Корневая страница - базовая защита
-/index.html
-  Content-Security-Policy: default-src 'self'; script-src 'none'; style-src 'none'; img-src 'none'; font-src 'none'; connect-src 'none'; media-src 'none'; object-src 'none'; frame-src 'none'; worker-src 'none'; manifest-src 'none'; prefetch-src 'none'; upgrade-insecure-requests; block-all-mixed-content
+  # Контроль кеширования (1 час для HTML, но требовать ревалидацию)
+  Cache-Control: public, max-age=3600, must-revalidate
+
+  # === ДОПОЛНИТЕЛЬНЫЕ ЗАГОЛОВКИ БЕЗОПАСНОСТИ ===
+
+  # Удалить информацию о сервере
+  Server:
+  X-Powered-By:
+
+  # Отключить Topics API (FLoC замена)
+  Permissions-Policy: interest-cohort=()
+
+  # Network Error Logging - отчеты о сетевых ошибках
+  NEL: {"report_to":"default","max_age":31536000,"include_subdomains":true}
+
+  # Report-To для CSP и других нарушений (замените на ваш endpoint)
+  # Report-To: {"group":"default","max_age":31536000,"endpoints":[{"url":"https://tutorld.report-uri.com/a/d/g"}],"include_subdomains":true}
+
+# ============================================
+# HTML ФАЙЛЫ - Дополнительная защита
+# ============================================
+/*.html
+  # Более строгий cache для HTML
+  Cache-Control: public, max-age=1800, must-revalidate
+
+  # CSP специфичный для HTML с inline стилями
+  Content-Security-Policy: default-src 'none'; script-src 'none'; style-src 'unsafe-inline' 'self'; img-src 'self' data:; font-src 'self'; connect-src 'none'; media-src 'none'; object-src 'none'; child-src 'none'; frame-src 'none'; worker-src 'none'; frame-ancestors 'none'; form-action 'none'; base-uri 'self'; manifest-src 'none'; upgrade-insecure-requests; block-all-mixed-content
+
+# ============================================
+# СТАТИЧЕСКИЕ РЕСУРСЫ - Долгое кеширование
+# ============================================
+
+# CSS файлы
+/*.css
+  Cache-Control: public, max-age=31536000, immutable
+  Content-Type: text/css; charset=utf-8
+  X-Content-Type-Options: nosniff
+
+# JavaScript файлы (если появятся)
+/*.js
+  Cache-Control: public, max-age=31536000, immutable
+  Content-Type: application/javascript; charset=utf-8
+  X-Content-Type-Options: nosniff
+  # Запретить выполнение если нет правильного MIME type
+  Content-Security-Policy: script-src 'none'
+
+# Изображения
+/*.jpg
+  Cache-Control: public, max-age=31536000, immutable
+  Content-Type: image/jpeg
+
+/*.jpeg
+  Cache-Control: public, max-age=31536000, immutable
+  Content-Type: image/jpeg
+
+/*.png
+  Cache-Control: public, max-age=31536000, immutable
+  Content-Type: image/png
+
+/*.gif
+  Cache-Control: public, max-age=31536000, immutable
+  Content-Type: image/gif
+
+/*.webp
+  Cache-Control: public, max-age=31536000, immutable
+  Content-Type: image/webp
+
+/*.svg
+  Cache-Control: public, max-age=31536000, immutable
+  Content-Type: image/svg+xml; charset=utf-8
+  X-Content-Type-Options: nosniff
+
+# Шрифты
+/*.woff
+  Cache-Control: public, max-age=31536000, immutable
+  Content-Type: font/woff
+  Cross-Origin-Resource-Policy: cross-origin
+
+/*.woff2
+  Cache-Control: public, max-age=31536000, immutable
+  Content-Type: font/woff2
+  Cross-Origin-Resource-Policy: cross-origin
+
+/*.ttf
+  Cache-Control: public, max-age=31536000, immutable
+  Content-Type: font/ttf
+
+/*.otf
+  Cache-Control: public, max-age=31536000, immutable
+  Content-Type: font/otf
+
+# ============================================
+# СПЕЦИАЛЬНЫЕ ФАЙЛЫ
+# ============================================
+
+# Robots.txt
+/robots.txt
+  Cache-Control: public, max-age=86400
+  Content-Type: text/plain; charset=utf-8
+
+# Sitemap
+/sitemap.xml
+  Cache-Control: public, max-age=86400
+  Content-Type: application/xml; charset=utf-8
+
+# Security.txt
+/.well-known/security.txt
+  Cache-Control: public, max-age=3600
+  Content-Type: text/plain; charset=utf-8
+
+# Manifest (если есть)
+/*.manifest
+  Cache-Control: public, max-age=0, must-revalidate
+  Content-Type: text/cache-manifest; charset=utf-8
+
+/*.webmanifest
+  Cache-Control: public, max-age=604800
+  Content-Type: application/manifest+json; charset=utf-8
+
+# ============================================
+# ЗАЩИТА ОТ ПРЯМОГО ДОСТУПА К СЛУЖЕБНЫМ ФАЙЛАМ
+# ============================================
+
+# Заблокировать доступ к конфигурационным файлам
+/.git/*
+  X-Robots-Tag: noindex, nofollow
+
+/.env*
+  X-Robots-Tag: noindex, nofollow
+
+/_headers
+  Cache-Control: no-store
+  X-Robots-Tag: noindex, nofollow
+
+# ============================================
+# ДОПОЛНИТЕЛЬНЫЕ ПОЛИТИКИ ДЛЯ БЕЗОПАСНОСТИ
+# ============================================
+
+# Блокировать встраивание в iframe с других доменов
+/*
+  X-Frame-Options: DENY
+  Content-Security-Policy: frame-ancestors 'none'
+
+# Отключить MIME-type sniffing для ВСЕХ типов файлов
+/*
+  X-Content-Type-Options: nosniff
+
+# Clear-Site-Data для logout (если будет такая страница)
+/logout
+  Clear-Site-Data: "cache", "cookies", "storage"

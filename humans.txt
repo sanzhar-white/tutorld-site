@@ -1,0 +1,48 @@
+# ============================================
+# HUMANS.TXT - TUTORLD
+# ============================================
+# Информация о людях, стоящих за сайтом
+
+/* TEAM */
+
+    Developer: Tutorld Team
+    Contact: support [at] tutorld.com
+    Twitter: @tutorld
+    Location: Kazakhstan
+
+/* THANKS */
+
+    Thanks to all security researchers who help keep our users safe.
+    Thanks to the open source community for amazing tools and libraries.
+
+/* SITE */
+
+    Last update: 2026/02/14
+    Language: English / Russian
+    Doctype: HTML5
+    IDE: Visual Studio Code
+    Components: Static HTML, CSS
+    Security: HTTPS, HSTS, CSP, CORS
+    Standards: W3C, RFC 9116, OWASP
+    Hosting: GitHub Pages / Cloudflare Pages
+
+/* SECURITY */
+
+    Report vulnerabilities: security@tutorld.com
+    Security Policy: https://tutorld.com/.well-known/security.txt
+    Encryption: PGP key available
+    Bug Bounty: Contact for details
+
+/* PRIVACY */
+
+    We respect your privacy.
+    Privacy Policy: https://tutorld.com/support/
+    Terms of Service: https://tutorld.com/terms/
+    GDPR Compliant: Yes
+    CCPA Compliant: Yes
+
+/* ACKNOWLEDGMENTS */
+
+    Built with care for user security and privacy.
+    Powered by modern web standards.
+    Protected by defense-in-depth security.

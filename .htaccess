@@ -1,0 +1,332 @@
+# ============================================
+# .HTACCESS - APACHE SECURITY CONFIGURATION
+# ============================================
+# Максимальная защита для Apache серверов
+# Если сайт на Nginx/Cloudflare, этот файл не используется
+
+# ============================================
+# ОСНОВНЫЕ НАСТРОЙКИ
+# ============================================
+
+# Включить переопределение конфигурации
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /
+</IfModule>
+
+# ============================================
+# HTTPS REDIRECT - Принудительное использование HTTPS
+# ============================================
+
+<IfModule mod_rewrite.c>
+    RewriteCond %{HTTPS} off
+    RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+</IfModule>
+
+# ============================================
+# SECURITY HEADERS
+# ============================================
+
+<IfModule mod_headers.c>
+    # Удалить информацию о сервере
+    Header always unset X-Powered-By
+    Header always unset Server
+
+    # Защита от XSS
+    Header always set X-XSS-Protection "1; mode=block"
+
+    # Защита от MIME sniffing
+    Header always set X-Content-Type-Options "nosniff"
+
+    # Защита от clickjacking
+    Header always set X-Frame-Options "DENY"
+
+    # HSTS - принудительный HTTPS (2 года)
+    Header always set Strict-Transport-Security "max-age=63072000; includeSubDomains; preload"
+
+    # Referrer Policy
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+
+    # Content Security Policy
+    Header always set Content-Security-Policy "default-src 'none'; script-src 'none'; style-src 'unsafe-inline' 'self'; img-src 'self' data:; font-src 'self'; connect-src 'none'; media-src 'none'; object-src 'none'; frame-src 'none'; frame-ancestors 'none'; form-action 'none'; base-uri 'self'; upgrade-insecure-requests; block-all-mixed-content"
+
+    # Permissions Policy
+    Header always set Permissions-Policy "accelerometer=(), ambient-light-sensor=(), autoplay=(), battery=(), bluetooth=(), browsing-topics=(), camera=(), display-capture=(), document-domain=(), encrypted-media=(), execution-while-not-rendered=(), execution-while-out-of-viewport=(), fullscreen=(), gamepad=(), geolocation=(), gyroscope=(), hid=(), identity-credentials-get=(), idle-detection=(), local-fonts=(), magnetometer=(), microphone=(), midi=(), otp-credentials=(), payment=(), picture-in-picture=(), publickey-credentials-create=(), publickey-credentials-get=(), screen-wake-lock=(), serial=(), speaker-selection=(), storage-access=(), usb=(), web-share=(), window-management=(), xr-spatial-tracking=(), interest-cohort=()"
+
+    # Cross-Origin Policies
+    Header always set Cross-Origin-Embedder-Policy "require-corp"
+    Header always set Cross-Origin-Opener-Policy "same-origin"
+    Header always set Cross-Origin-Resource-Policy "same-origin"
+
+    # Origin Agent Cluster
+    Header always set Origin-Agent-Cluster "?1"
+
+    # Expect-CT
+    Header always set Expect-CT "max-age=86400, enforce"
+
+    # DNS Prefetch Control
+    Header always set X-DNS-Prefetch-Control "off"
+
+    # Download Options
+    Header always set X-Download-Options "noopen"
+
+    # Permitted Cross Domain Policies
+    Header always set X-Permitted-Cross-Domain-Policies "none"
+</IfModule>
+
+# ============================================
+# БЛОКИРОВКА ДОСТУПА К СЛУЖЕБНЫМ ФАЙЛАМ
+# ============================================
+
+# Заблокировать доступ к .git
+<IfModule mod_rewrite.c>
+    RewriteRule ^\.git - [F,L]
+</IfModule>
+
+# Заблокировать доступ к скрытым файлам (начинающимся с точки)
+<FilesMatch "^\.">
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+    <IfModule !mod_authz_core.c>
+        Order allow,deny
+        Deny from all
+    </IfModule>
+</FilesMatch>
+
+# Разрешить доступ к .well-known (для security.txt и других стандартов)
+<IfModule mod_rewrite.c>
+    RewriteCond %{REQUEST_URI} ^/\.well-known/.*
+    RewriteRule ^ - [L]
+</IfModule>
+
+# Заблокировать доступ к файлам резервных копий
+<FilesMatch "\.(bak|backup|swp|old|tmp|~)$">
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+    <IfModule !mod_authz_core.c>
+        Order allow,deny
+        Deny from all
+    </IfModule>
+</FilesMatch>
+
+# Заблокировать доступ к конфигурационным файлам
+<FilesMatch "^(\.htaccess|\.htpasswd|\.env|_headers|package\.json|composer\.json|yarn\.lock|package-lock\.json)$">
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+    <IfModule !mod_authz_core.c>
+        Order allow,deny
+        Deny from all
+    </IfModule>
+</FilesMatch>
+
+# ============================================
+# ЗАЩИТА ОТ DIRECTORY LISTING
+# ============================================
+
+Options -Indexes
+
+# ============================================
+# ЗАЩИТА ОТ HOTLINKING
+# ============================================
+
+<IfModule mod_rewrite.c>
+    # Разрешить только с вашего домена или прямой доступ
+    RewriteCond %{HTTP_REFERER} !^$
+    RewriteCond %{HTTP_REFERER} !^https?://(www\.)?tutorld\.com [NC]
+    RewriteRule \.(jpg|jpeg|png|gif|webp|svg)$ - [F,L]
+</IfModule>
+
+# ============================================
+# MIME TYPES
+# ============================================
+
+<IfModule mod_mime.c>
+    # HTML
+    AddType text/html .html
+    AddDefaultCharset utf-8
+
+    # CSS
+    AddType text/css .css
+
+    # JavaScript
+    AddType application/javascript .js
+    AddType application/json .json
+
+    # Изображения
+    AddType image/jpeg .jpg .jpeg
+    AddType image/png .png
+    AddType image/gif .gif
+    AddType image/webp .webp
+    AddType image/svg+xml .svg
+
+    # Шрифты
+    AddType font/woff .woff
+    AddType font/woff2 .woff2
+    AddType font/ttf .ttf
+    AddType font/otf .otf
+
+    # XML
+    AddType application/xml .xml
+    AddType application/rss+xml .rss
+
+    # Manifest
+    AddType application/manifest+json .webmanifest
+    AddType text/cache-manifest .manifest
+
+    # Другое
+    AddType text/plain .txt
+</IfModule>
+
+# ============================================
+# GZIP COMPRESSION
+# ============================================
+
+<IfModule mod_deflate.c>
+    # Сжимать HTML, CSS, JavaScript, Text, XML и шрифты
+    AddOutputFilterByType DEFLATE text/html
+    AddOutputFilterByType DEFLATE text/css
+    AddOutputFilterByType DEFLATE text/javascript
+    AddOutputFilterByType DEFLATE application/javascript
+    AddOutputFilterByType DEFLATE application/x-javascript
+    AddOutputFilterByType DEFLATE text/xml
+    AddOutputFilterByType DEFLATE application/xml
+    AddOutputFilterByType DEFLATE application/rss+xml
+    AddOutputFilterByType DEFLATE application/json
+    AddOutputFilterByType DEFLATE text/plain
+    AddOutputFilterByType DEFLATE font/woff
+    AddOutputFilterByType DEFLATE font/woff2
+    AddOutputFilterByType DEFLATE font/ttf
+    AddOutputFilterByType DEFLATE font/otf
+    AddOutputFilterByType DEFLATE image/svg+xml
+
+    # Удалить ETag для сжатых файлов
+    Header unset ETag
+    FileETag None
+</IfModule>
+
+# ============================================
+# BROWSER CACHING
+# ============================================
+
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresDefault "access plus 1 hour"
+
+    # HTML - короткое кеширование
+    ExpiresByType text/html "access plus 1 hour"
+
+    # CSS и JS - долгое кеширование
+    ExpiresByType text/css "access plus 1 year"
+    ExpiresByType application/javascript "access plus 1 year"
+
+    # Изображения - долгое кеширование
+    ExpiresByType image/jpeg "access plus 1 year"
+    ExpiresByType image/png "access plus 1 year"
+    ExpiresByType image/gif "access plus 1 year"
+    ExpiresByType image/webp "access plus 1 year"
+    ExpiresByType image/svg+xml "access plus 1 year"
+
+    # Шрифты - долгое кеширование
+    ExpiresByType font/woff "access plus 1 year"
+    ExpiresByType font/woff2 "access plus 1 year"
+    ExpiresByType font/ttf "access plus 1 year"
+    ExpiresByType font/otf "access plus 1 year"
+
+    # Манифесты
+    ExpiresByType application/manifest+json "access plus 1 week"
+
+    # XML
+    ExpiresByType application/xml "access plus 1 day"
+    ExpiresByType text/xml "access plus 1 day"
+</IfModule>
+
+# ============================================
+# ЗАЩИТА ОТ CLICKJACKING
+# ============================================
+
+<IfModule mod_headers.c>
+    Header always append X-Frame-Options DENY
+    Header always append Content-Security-Policy "frame-ancestors 'none'"
+</IfModule>
+
+# ============================================
+# ЗАЩИТА ОТ INJECTION АТАК
+# ============================================
+
+<IfModule mod_rewrite.c>
+    # Блокировать подозрительные URL
+    RewriteCond %{QUERY_STRING} (<|%3C).*script.*(>|%3E) [NC,OR]
+    RewriteCond %{QUERY_STRING} GLOBALS(=|[|%[0-9A-Z]{0,2}) [OR]
+    RewriteCond %{QUERY_STRING} _REQUEST(=|[|%[0-9A-Z]{0,2}) [OR]
+    RewriteCond %{QUERY_STRING} proc/self/environ [OR]
+    RewriteCond %{QUERY_STRING} mosConfig_[a-zA-Z_]{1,21}(=|%3D) [OR]
+    RewriteCond %{QUERY_STRING} base64_encode.*(.*) [OR]
+    RewriteCond %{QUERY_STRING} ^.*(\[|\]|\(|\)|<|>|ê|"|;|\?|\*|=$).* [NC,OR]
+    RewriteCond %{QUERY_STRING} ^.*(&#x22;|&#x27;|&#x3C;|&#x3E;|&#x5C;|&#x7B;|&#x7C;).* [NC,OR]
+    RewriteCond %{QUERY_STRING} ^.*(%24&x).* [NC,OR]
+    RewriteCond %{QUERY_STRING} ^.*(%0|%A|%B|%C|%D|%E|%F|127\.0).* [NC,OR]
+    RewriteCond %{QUERY_STRING} ^.*(globals|encode|localhost|loopback).* [NC,OR]
+    RewriteCond %{QUERY_STRING} ^.*(request|select|insert|union|declare).* [NC]
+    RewriteRule ^(.*)$ - [F,L]
+</IfModule>
+
+# ============================================
+# ЗАЩИТА ОТ USER AGENT АТАК
+# ============================================
+
+<IfModule mod_rewrite.c>
+    # Блокировать вредоносных ботов
+    RewriteCond %{HTTP_USER_AGENT} ^$ [OR]
+    RewriteCond %{HTTP_USER_AGENT} (libwww|wget|python|nikto|curl|scan|java|winhttp|clshttp|loader) [NC,OR]
+    RewriteCond %{HTTP_USER_AGENT} (;|<|>|'|"|\)|%0A|%0D|%27|%3C|%3E|%00) [NC]
+    RewriteRule ^(.*)$ - [F,L]
+</IfModule>
+
+# ============================================
+# ЗАЩИТА ОТ DDOS (базовая)
+# ============================================
+
+<IfModule mod_evasive24.c>
+    DOSHashTableSize 3097
+    DOSPageCount 10
+    DOSSiteCount 100
+    DOSPageInterval 2
+    DOSSiteInterval 2
+    DOSBlockingPeriod 600
+</IfModule>
+
+# ============================================
+# ОТКЛЮЧЕНИЕ TRACE И TRACK
+# ============================================
+
+<IfModule mod_rewrite.c>
+    RewriteCond %{REQUEST_METHOD} ^(TRACE|TRACK)
+    RewriteRule .* - [F]
+</IfModule>
+
+# ============================================
+# ERROR PAGES
+# ============================================
+
+ErrorDocument 400 /400.html
+ErrorDocument 401 /401.html
+ErrorDocument 403 /403.html
+ErrorDocument 404 /404.html
+ErrorDocument 500 /500.html
+ErrorDocument 502 /502.html
+ErrorDocument 503 /503.html
+
+# ============================================
+# ДОПОЛНИТЕЛЬНАЯ ЗАЩИТА
+# ============================================
+
+# Отключить сигнатуру сервера
+ServerSignature Off
+
+# Установить серверные токены в минимум
+<IfModule mod_security.c>
+    SecServerSignature " "
+</IfModule>

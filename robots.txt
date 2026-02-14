@@ -1,31 +1,204 @@
-# Robots.txt для Tutorld
-# Контроль доступа поисковых систем
+# ============================================
+# ROBOTS.TXT - TUTORLD
+# ============================================
+# Контроль доступа поисковых систем и ботов
 
-# Правила для всех ботов
+# === ПРАВИЛА ДЛЯ ВСЕХ БОТОВ ===
+
 User-agent: *
+
 # Разрешить индексацию основных страниц
 Allow: /
 Allow: /terms/
 Allow: /privacy/
 Allow: /support/
+Allow: /download/
 
-# Запретить индексацию потенциально чувствительных файлов
+# Запретить индексацию служебных файлов и директорий
 Disallow: /_headers
+Disallow: /.htaccess
 Disallow: /.well-known/
-Disallow: /security.txt
+Disallow: /nginx.conf
+Disallow: /*.conf$
+Disallow: /*.log$
+Disallow: /*.bak$
+Disallow: /*.backup$
+Disallow: /*.old$
+Disallow: /*.tmp$
+Disallow: /.git/
+Disallow: /.env
+
+# Запретить индексацию потенциально чувствительных путей
+Disallow: /admin/
+Disallow: /api/
+Disallow: /config/
+Disallow: /includes/
+Disallow: /private/
+Disallow: /temp/
+Disallow: /tmp/
+Disallow: /backup/
+Disallow: /old/
+
+# === SITEMAP ===
 
 # Указать карту сайта для поисковиков
 Sitemap: https://tutorld.com/sitemap.xml
 
-# Специфические правила для популярных ботов
+# === ПРАВИЛА ДЛЯ ПОПУЛЯРНЫХ ПОИСКОВЫХ БОТОВ ===
+
+# Google
 User-agent: Googlebot
 Allow: /
+Crawl-delay: 1
 
+User-agent: Googlebot-Image
+Allow: /
+
+User-agent: Googlebot-Mobile
+Allow: /
+
+# Bing
 User-agent: Bingbot
 Allow: /
+Crawl-delay: 1
 
+# Yahoo
 User-agent: Slurp
 Allow: /
-
-# Ограничение скорости сканирования (если поддерживается)
 Crawl-delay: 1
+
+# DuckDuckGo
+User-agent: DuckDuckBot
+Allow: /
+Crawl-delay: 1
+
+# Yandex
+User-agent: Yandex
+Allow: /
+Crawl-delay: 1
+
+# Baidu
+User-agent: Baiduspider
+Allow: /
+Crawl-delay: 2
+
+# === БЛОКИРОВКА ВРЕДОНОСНЫХ БОТОВ ===
+
+# AI scrapers - блокировать если не хотите, чтобы ваш контент использовался для обучения AI
+User-agent: GPTBot
+Disallow: /
+
+User-agent: ChatGPT-User
+Disallow: /
+
+User-agent: CCBot
+Disallow: /
+
+User-agent: anthropic-ai
+Disallow: /
+
+User-agent: Claude-Web
+Disallow: /
+
+User-agent: Google-Extended
+Disallow: /
+
+# Известные плохие боты
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: SemrushBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: DotBot
+Disallow: /
+
+User-agent: BLEXBot
+Disallow: /
+
+User-agent: MegaIndex
+Disallow: /
+
+User-agent: SEOkicks
+Disallow: /
+
+User-agent: proximic
+Disallow: /
+
+User-agent: Mail.RU_Bot
+Disallow: /
+
+User-agent: AspiegelBot
+Disallow: /
+
+# Scrapers и спаммеры
+User-agent: SurveyBot
+Disallow: /
+
+User-agent: Java
+Disallow: /
+
+User-agent: EmailCollector
+Disallow: /
+
+User-agent: EmailSiphon
+Disallow: /
+
+User-agent: WebBandit
+Disallow: /
+
+User-agent: EmailWolf
+Disallow: /
+
+User-agent: ExtractorPro
+Disallow: /
+
+User-agent: CopyRightCheck
+Disallow: /
+
+User-agent: Crescent
+Disallow: /
+
+User-agent: wget
+Disallow: /
+
+User-agent: grub-client
+Disallow: /
+
+User-agent: Offline Explorer
+Disallow: /
+
+User-agent: WebCopier
+Disallow: /
+
+User-agent: HTTrack
+Disallow: /
+
+User-agent: Microsoft.URL.Control
+Disallow: /
+
+User-agent: libwww
+Disallow: /
+
+# === ДОПОЛНИТЕЛЬНЫЕ НАСТРОЙКИ ===
+
+# Ограничение скорости сканирования для обычных ботов
+# (не все боты поддерживают, но некоторые уважают)
+Crawl-delay: 1
+
+# Request-rate (альтернатива Crawl-delay для некоторых ботов)
+Request-rate: 1/10
+
+# Visit-time (предпочтительное время для сканирования)
+Visit-time: 0400-0800
+
+# === ИНФОРМАЦИЯ ===
+
+# Host (preferred domain)
+Host: https://tutorld.com
+
+# Контактная информация
+# Для вопросов о robots.txt: support@tutorld.com
