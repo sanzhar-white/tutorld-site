@@ -130,25 +130,10 @@
         }
       }
     </style>
-    <!-- Meta Pixel Code -->
-    <script>
-    !function(f,b,e,v,n,t,s)
-    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-    n.queue=[];t=b.createElement(e);t.async=!0;
-    t.src=v;s=b.getElementsByTagName(e)[0];
-    s.parentNode.insertBefore(t,s)}(window, document,'script',
-    'https://connect.facebook.net/en_US/fbevents.js');
-    fbq('init', '4089032671241578');
-    fbq('track', 'PageView');
-    </script>
-    <noscript><img height="1" width="1" style="display:none"
-    src="https://www.facebook.com/tr?id=4089032671241578&ev=PageView&noscript=1"
-    /></noscript>
-    <!-- End Meta Pixel Code -->
+    <!-- Meta Pixel Code with guaranteed delivery before redirect -->
     <script>
       (function() {
+        var PIXEL_ID = '4089032671241578';
         var ua = navigator.userAgent || navigator.vendor || window.opera;
 
         var iosUrl = 'https://apps.apple.com/kz/app/tutorld-ai-english-tutor/id6756176744';
@@ -157,13 +142,39 @@
         var isIOS = /iPad|iPhone|iPod/.test(ua) && !window.MSStream;
         var isAndroid = /Android/.test(ua);
 
+        var redirectUrl = null;
         if (isIOS) {
-          window.location.replace(iosUrl);
+          redirectUrl = iosUrl;
         } else if (isAndroid) {
-          window.location.replace(androidUrl);
+          redirectUrl = androidUrl;
+        }
+
+        // Send Facebook Pixel via Image and wait for confirmation
+        var pixelSent = false;
+        var pixelUrl = 'https://www.facebook.com/tr?id=' + PIXEL_ID + '&ev=PageView&noscript=1';
+
+        function doRedirect() {
+          if (redirectUrl && !pixelSent) {
+            pixelSent = true;
+            window.location.replace(redirectUrl);
+          }
+        }
+
+        var img = new Image(1, 1);
+        img.onload = doRedirect;
+        img.onerror = doRedirect; // Redirect even if pixel fails
+        img.src = pixelUrl;
+
+        // Fallback: redirect after 3 seconds if pixel hasn't loaded
+        if (redirectUrl) {
+          setTimeout(doRedirect, 3000);
         }
       })();
     </script>
+    <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=4089032671241578&ev=PageView&noscript=1"
+    /></noscript>
+    <!-- End Meta Pixel Code -->
   </head>
   <body>
     <div class="container">
