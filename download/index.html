@@ -17,6 +17,18 @@
     <link rel="icon" type="image/x-icon" href="data:," />
     <link rel="canonical" href="https://www.tutorld.com/download/" />
     <style>
+      :root {
+        --primary: #0088FF;
+        --dark-bg: #0D1117;
+        --surface: #FFFFFF;
+        --text: #0D1117;
+        --text-secondary: #5A6370;
+        --text-tertiary: #8A949F;
+        --border: #E0E0E0;
+        --radius-lg: 24px;
+        --radius-md: 14px;
+      }
+
       * {
         margin: 0;
         padding: 0;
@@ -24,71 +36,141 @@
       }
 
       body {
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-        line-height: 1.6;
-        color: #333;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+        background: var(--dark-bg);
         min-height: 100vh;
         display: flex;
         align-items: center;
         justify-content: center;
+        -webkit-font-smoothing: antialiased;
+        overflow: hidden;
+      }
+
+      /* Blue orb background blur */
+      body::before {
+        content: '';
+        position: fixed;
+        top: -20%;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 600px;
+        height: 600px;
+        background: radial-gradient(ellipse at center, rgba(0,136,255,0.22) 0%, rgba(139,92,246,0.12) 50%, transparent 70%);
+        pointer-events: none;
+        z-index: 0;
+        animation: orb-drift 8s ease-in-out infinite;
+      }
+
+      body::after {
+        content: '';
+        position: fixed;
+        bottom: -10%;
+        right: -10%;
+        width: 400px;
+        height: 400px;
+        background: radial-gradient(ellipse at center, rgba(139,92,246,0.14) 0%, transparent 65%);
+        pointer-events: none;
+        z-index: 0;
+      }
+
+      @keyframes orb-drift {
+        0%, 100% { transform: translateX(-50%) translateY(0); }
+        50% { transform: translateX(-50%) translateY(-30px); }
       }
 
       .container {
-        max-width: 500px;
-        width: 100%;
+        position: relative;
+        z-index: 1;
+        max-width: 420px;
+        width: calc(100% - 40px);
         margin: 20px;
-        padding: 40px 30px;
-        background: white;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-        border-radius: 10px;
+        padding: 40px 36px;
+        background: var(--surface);
+        box-shadow: 0 32px 80px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.05);
+        border-radius: var(--radius-lg);
         text-align: center;
       }
 
       .logo {
-        font-size: 2.5em;
-        font-weight: bold;
-        color: #667eea;
-        margin-bottom: 10px;
+        font-size: 1.8rem;
+        font-weight: 800;
+        color: var(--primary);
+        margin-bottom: 4px;
+        letter-spacing: -0.5px;
       }
 
       .subtitle {
-        color: #666;
-        font-size: 1.1em;
-        margin-bottom: 30px;
+        color: var(--text-secondary);
+        font-size: 0.95rem;
+        font-weight: 400;
+        margin-bottom: 28px;
       }
 
+      /* Redirecting dots animation */
       .redirecting {
-        color: #999;
-        font-size: 0.95em;
-        margin-bottom: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        margin-bottom: 28px;
+        min-height: 24px;
+      }
+
+      .redirect-text {
+        color: var(--text-tertiary);
+        font-size: 0.85rem;
+      }
+
+      .dots {
+        display: flex;
+        gap: 4px;
+        align-items: center;
+      }
+
+      .dot {
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+        background: var(--primary);
+        animation: dot-pulse 1.4s ease-in-out infinite;
+      }
+
+      .dot:nth-child(2) { animation-delay: 0.2s; }
+      .dot:nth-child(3) { animation-delay: 0.4s; }
+
+      @keyframes dot-pulse {
+        0%, 80%, 100% { opacity: 0.3; transform: scale(0.8); }
+        40% { opacity: 1; transform: scale(1); }
       }
 
       .store-buttons {
         display: flex;
         flex-direction: column;
-        gap: 15px;
+        gap: 12px;
         align-items: center;
       }
 
       .store-btn {
         display: inline-flex;
         align-items: center;
-        justify-content: center;
-        gap: 10px;
+        gap: 12px;
         width: 100%;
-        max-width: 280px;
-        padding: 14px 24px;
-        border-radius: 12px;
+        max-width: 300px;
+        padding: 14px 20px;
+        border-radius: var(--radius-md);
         text-decoration: none;
-        font-size: 1.05em;
         font-weight: 600;
-        transition: transform 0.2s, box-shadow 0.2s;
+        transition: transform 0.2s, box-shadow 0.2s, opacity 0.2s;
       }
 
       .store-btn:hover {
         transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+      }
+
+      .store-btn:active {
+        transform: translateY(0);
+        opacity: 0.9;
       }
 
       .store-btn-ios {
@@ -97,36 +179,55 @@
       }
 
       .store-btn-android {
-        background: #01875f;
+        background: var(--primary);
         color: #fff;
       }
 
       .store-icon {
-        font-size: 1.4em;
+        font-size: 1.5rem;
+        line-height: 1;
+        flex-shrink: 0;
+      }
+
+      .store-btn-text {
+        display: flex;
+        flex-direction: column;
+        text-align: left;
+      }
+
+      .store-btn-label {
+        font-size: 0.65rem;
+        font-weight: 400;
+        opacity: 0.75;
+        line-height: 1;
+        margin-bottom: 2px;
+      }
+
+      .store-btn-name {
+        font-size: 1rem;
+        font-weight: 700;
+        line-height: 1;
       }
 
       .footer-link {
-        margin-top: 30px;
+        margin-top: 24px;
       }
 
       .footer-link a {
-        color: #667eea;
+        color: var(--text-tertiary);
         text-decoration: none;
-        font-size: 0.9em;
+        font-size: 0.8rem;
+        transition: color 0.2s;
       }
 
       .footer-link a:hover {
-        text-decoration: underline;
+        color: var(--primary);
       }
 
       @media (max-width: 480px) {
         .container {
-          margin: 10px;
-          padding: 30px 20px;
-        }
-
-        .logo {
-          font-size: 2em;
+          padding: 32px 24px;
+          margin: 16px;
         }
       }
     </style>
@@ -134,7 +235,7 @@
     <script>
       // --- PostHog EU initialization ---
       !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.crossOrigin="anonymous",p.async=!0,p.src=s.api_host+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+" (stub)"},o="capture identify alias people.set people.set_once set_config register register_once unregister opt_out_capturing has_opted_out_capturing opt_in_capturing reset isFeatureEnabled onFeatureFlags getFeatureFlag getFeatureFlagPayload loadFeatureFlags".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
-      posthog.init('phc_YOUR_KEY_HERE', {api_host: 'https://eu.i.posthog.com'});
+      posthog.init('phc_CSemNWELDa7XSwJxABsyUw0E3uMd0gZpzviUQyyFrk6', {api_host: 'https://eu.i.posthog.com'});
 
       // --- Read ref from URL path ---
       // /download/anthony -> ref = "anthony"
@@ -196,17 +297,34 @@
       <div class="logo">Tutorld</div>
       <p class="subtitle">Download the app</p>
 
+      <div class="redirecting">
+        <span class="redirect-text">Redirecting</span>
+        <div class="dots">
+          <span class="dot"></span>
+          <span class="dot"></span>
+          <span class="dot"></span>
+        </div>
+      </div>
+
       <div class="store-buttons">
         <a href="https://apps.apple.com/kz/app/tutorld-ai-english-tutor/id6756176744"
            onclick="if(window.posthog) posthog.capture('download_clicked', {ref: window._trackingRef, platform: 'ios', store: 'appstore'})"
            class="store-btn store-btn-ios">
-          <span class="store-icon">&#63743;</span> App Store
+          <span class="store-icon">&#63743;</span>
+          <span class="store-btn-text">
+            <span class="store-btn-label">Download on the</span>
+            <span class="store-btn-name">App Store</span>
+          </span>
         </a>
         <a href="https://play.google.com/store/apps/details?id=com.tutorld.app&referrer=utm_source%3Ddirect"
            id="android-btn"
            onclick="if(window.posthog) posthog.capture('download_clicked', {ref: window._trackingRef, platform: 'android', store: 'googleplay'})"
            class="store-btn store-btn-android">
-          <span class="store-icon">&#9654;</span> Google Play
+          <span class="store-icon">&#9654;</span>
+          <span class="store-btn-text">
+            <span class="store-btn-label">Get it on</span>
+            <span class="store-btn-name">Google Play</span>
+          </span>
         </a>
       </div>
 
