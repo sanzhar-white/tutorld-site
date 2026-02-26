@@ -16,288 +16,465 @@
     <link rel="icon" type="image/x-icon" href="data:," />
     <link rel="canonical" href="https://tutorld.com/support/" />
     <style>
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
+      :root {
+        --primary: #0088FF;
+        --primary-dark: #0070E0;
+        --bg: #FAFAFA;
+        --surface: #FFFFFF;
+        --surface-variant: #F5F5F5;
+        --text: #0D1117;
+        --text-secondary: #5A6370;
+        --text-tertiary: #8A949F;
+        --border: #E0E0E0;
+        --radius-sm: 8px;
+        --radius-md: 12px;
+        --radius-lg: 16px;
+        --shadow-sm: 0 2px 20px rgba(0,0,0,0.06);
+        --shadow-md: 0 4px 36px rgba(0,0,0,0.10);
       }
+
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+
+      html { scroll-behavior: smooth; }
 
       body {
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-        line-height: 1.6;
-        color: #333;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        min-height: 100vh;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        line-height: 1.7;
+        -webkit-font-smoothing: antialiased;
       }
 
-      .container {
+      /* NAV */
+      nav {
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        background: rgba(255,255,255,0.92);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border-bottom: 1px solid var(--border);
+        box-shadow: 0 1px 12px rgba(0,0,0,0.05);
+      }
+
+      .nav-inner {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 0 24px;
+        height: 64px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 24px;
+      }
+
+      .nav-logo {
+        font-size: 1.35rem;
+        font-weight: 800;
+        color: var(--primary);
+        text-decoration: none;
+        letter-spacing: -0.5px;
+      }
+
+      .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .nav-links a {
+        color: var(--text-secondary);
+        text-decoration: none;
+        font-size: 0.9rem;
+        font-weight: 500;
+        padding: 6px 14px;
+        border-radius: 20px;
+        transition: color 0.2s, background 0.2s;
+      }
+
+      .nav-links a:hover {
+        color: var(--text);
+        background: var(--surface-variant);
+      }
+
+      .nav-cta {
+        background: var(--primary) !important;
+        color: #fff !important;
+        border-radius: 22px !important;
+        padding: 8px 20px !important;
+        font-weight: 600 !important;
+      }
+
+      .nav-cta:hover { background: var(--primary-dark) !important; }
+
+      /* PAGE HEADER */
+      .page-header {
+        background: var(--surface);
+        border-bottom: 1px solid var(--border);
+        padding: 48px 24px 40px;
+        text-align: center;
+      }
+
+      .page-header-inner {
         max-width: 800px;
         margin: 0 auto;
-        padding: 20px;
-        background: white;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-        border-radius: 10px;
-        margin-top: 20px;
+      }
+
+      .page-label {
+        display: inline-block;
+        font-size: 0.75rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        color: var(--primary);
+        margin-bottom: 10px;
+      }
+
+      .page-title {
+        font-size: clamp(1.6rem, 3vw, 2.2rem);
+        font-weight: 800;
+        letter-spacing: -0.5px;
+        line-height: 1.2;
+        margin-bottom: 8px;
+      }
+
+      .page-subtitle {
+        color: var(--text-secondary);
+        font-size: 1rem;
+      }
+
+      /* CONTENT */
+      .doc-content {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 48px 24px 80px;
+      }
+
+      /* Contact hero */
+      .contact-hero {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+        padding: 40px 32px;
+        text-align: center;
+        margin-bottom: 40px;
+        box-shadow: var(--shadow-sm);
+      }
+
+      .contact-hero-icon {
+        font-size: 2.5rem;
+        margin-bottom: 16px;
+      }
+
+      .contact-hero h2 {
+        font-size: 1.2rem;
+        font-weight: 700;
+        margin-bottom: 8px;
+      }
+
+      .contact-hero p {
+        color: var(--text-secondary);
+        font-size: 0.925rem;
         margin-bottom: 20px;
       }
 
-      .header {
-        text-align: center;
-        padding: 40px 0;
-        border-bottom: 2px solid #f0f0f0;
-        margin-bottom: 40px;
-      }
-
-      .logo {
-        font-size: 2.5em;
-        font-weight: bold;
-        color: #667eea;
-        margin-bottom: 10px;
-        text-decoration: none;
-      }
-
-      h1 {
-        color: #333;
-        font-size: 2em;
-        margin-bottom: 10px;
-        font-weight: 300;
-      }
-
-      .subtitle {
-        color: #666;
-        font-size: 1.1em;
-      }
-
-      .nav {
-        background: #f8f9fa;
-        padding: 15px;
-        border-radius: 8px;
-        margin-bottom: 30px;
-        text-align: center;
-      }
-
-      .nav a {
-        color: #667eea;
-        text-decoration: none;
-        margin: 0 15px;
-        padding: 8px 16px;
-        border-radius: 20px;
-        transition: background 0.3s;
-      }
-
-      .nav a:hover {
-        background: #667eea;
-        color: white;
-      }
-
-      .content {
-        padding: 0 20px;
-      }
-
-      .section {
-        margin-bottom: 40px;
-        padding-bottom: 20px;
-        border-bottom: 1px solid #eee;
-      }
-
-      .section:last-child {
-        border-bottom: none;
-      }
-
-      .section h2 {
-        color: #667eea;
-        font-size: 1.5em;
-        margin-bottom: 15px;
-        font-weight: 600;
-      }
-
-      .section p {
-        margin-bottom: 15px;
-      }
-
-      .contact-box {
-        background: #f8f9fa;
-        padding: 30px;
-        border-radius: 10px;
-        text-align: center;
-        margin: 20px 0;
-      }
-
-      .contact-box a {
-        color: #667eea;
-        text-decoration: none;
-        font-weight: 600;
-        font-size: 1.2em;
-      }
-
-      .contact-box a:hover {
-        text-decoration: underline;
-      }
-
-      .contact-box p {
-        color: #666;
-        margin-top: 10px;
-        margin-bottom: 0;
-      }
-
-      .faq-item {
-        background: #f8f9fa;
-        padding: 20px;
-        border-radius: 8px;
-        margin-bottom: 15px;
-      }
-
-      .faq-item h3 {
-        color: #333;
-        font-size: 1.1em;
-        margin-bottom: 10px;
-        font-weight: 600;
-      }
-
-      .faq-item p {
-        color: #555;
-        margin-bottom: 0;
-      }
-
-      .download-links {
-        display: flex;
-        justify-content: center;
-        gap: 20px;
-        flex-wrap: wrap;
-        margin: 20px 0;
-      }
-
-      .download-btn {
+      .contact-email-btn {
         display: inline-flex;
         align-items: center;
         gap: 8px;
-        padding: 12px 24px;
-        border-radius: 8px;
+        background: var(--primary);
+        color: #fff;
+        text-decoration: none;
+        padding: 12px 28px;
+        border-radius: 24px;
+        font-weight: 600;
+        font-size: 0.975rem;
+        transition: background 0.2s, transform 0.15s;
+      }
+
+      .contact-email-btn:hover {
+        background: var(--primary-dark);
+        transform: translateY(-1px);
+      }
+
+      .contact-response {
+        margin-top: 12px;
+        color: var(--text-tertiary);
+        font-size: 0.8rem;
+      }
+
+      /* Download section */
+      .download-section {
+        margin-bottom: 40px;
+      }
+
+      .section-title {
+        font-size: 1.1rem;
+        font-weight: 700;
+        margin-bottom: 16px;
+        color: var(--text);
+      }
+
+      .section-desc {
+        font-size: 0.925rem;
+        color: var(--text-secondary);
+        margin-bottom: 20px;
+      }
+
+      .store-buttons {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+
+      .store-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 12px 20px;
+        border-radius: var(--radius-md);
         text-decoration: none;
         font-weight: 600;
-        transition: transform 0.2s;
+        font-size: 0.875rem;
+        transition: transform 0.2s, box-shadow 0.2s;
       }
 
-      .download-btn:hover {
+      .store-btn:hover {
         transform: translateY(-2px);
+        box-shadow: var(--shadow-md);
       }
 
-      .download-btn-ios {
-        background: #000;
-        color: #fff;
+      .store-btn-ios { background: var(--text); color: #fff; }
+      .store-btn-android { background: var(--primary); color: #fff; }
+
+      /* FAQ */
+      .faq-list {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        margin-bottom: 40px;
       }
 
-      .download-btn-android {
-        background: #01875f;
-        color: #fff;
+      .faq-item {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-md);
+        padding: 20px 24px;
+        box-shadow: var(--shadow-sm);
+      }
+
+      .faq-item h3 {
+        font-size: 0.95rem;
+        font-weight: 700;
+        color: var(--text);
+        margin-bottom: 8px;
+      }
+
+      .faq-item p {
+        font-size: 0.9rem;
+        color: var(--text-secondary);
+        line-height: 1.65;
+      }
+
+      .faq-item a {
+        color: var(--primary);
+        text-decoration: none;
+      }
+
+      .faq-item a:hover { text-decoration: underline; }
+
+      /* Bug report */
+      .bug-section {
+        background: var(--surface-variant);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+        padding: 28px 24px;
+      }
+
+      .bug-section p {
+        font-size: 0.925rem;
+        color: var(--text-secondary);
+        margin-bottom: 12px;
+        line-height: 1.65;
+      }
+
+      .bug-section a {
+        color: var(--primary);
+        text-decoration: none;
+        font-weight: 600;
+      }
+
+      .bug-section a:hover { text-decoration: underline; }
+
+      .bug-section ul {
+        margin-left: 20px;
+      }
+
+      .bug-section li {
+        font-size: 0.9rem;
+        color: var(--text-secondary);
+        margin-bottom: 6px;
+        line-height: 1.65;
+      }
+
+      /* FOOTER */
+      footer {
+        background: var(--surface);
+        border-top: 1px solid var(--border);
+        padding: 32px 24px;
+      }
+
+      .footer-inner {
+        max-width: 1100px;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 16px;
+      }
+
+      .footer-logo {
+        font-size: 1.1rem;
+        font-weight: 800;
+        color: var(--primary);
+        text-decoration: none;
+      }
+
+      .footer-links {
+        display: flex;
+        gap: 20px;
+        flex-wrap: wrap;
+      }
+
+      .footer-links a {
+        color: var(--text-tertiary);
+        text-decoration: none;
+        font-size: 0.875rem;
+        transition: color 0.2s;
+      }
+
+      .footer-links a:hover { color: var(--text); }
+
+      .footer-copy {
+        color: var(--text-tertiary);
+        font-size: 0.8rem;
+        width: 100%;
+        text-align: center;
+        padding-top: 20px;
+        border-top: 1px solid var(--border);
+        margin-top: 4px;
       }
 
       @media (max-width: 768px) {
-        .container {
-          margin: 10px;
-          padding: 15px;
-        }
-
-        .header {
-          padding: 20px 0;
-        }
-
-        .logo {
-          font-size: 2em;
-        }
-
-        h1 {
-          font-size: 1.5em;
-        }
-
-        .content {
-          padding: 0;
-        }
-
-        .nav a {
-          display: block;
-          margin: 5px 0;
-        }
+        .nav-links a:not(.nav-cta) { display: none; }
+        .doc-content { padding: 32px 20px 60px; }
+        .page-header { padding: 32px 20px 28px; }
+        .contact-hero { padding: 28px 20px; }
       }
     </style>
   </head>
   <body>
-    <div class="container">
-      <div class="header">
-        <a href="/" class="logo">Tutorld</a>
-        <h1>Support</h1>
-        <p class="subtitle">We're here to help</p>
+
+    <nav>
+      <div class="nav-inner">
+        <a href="/" class="nav-logo">Tutorld</a>
+        <div class="nav-links">
+          <a href="/">Home</a>
+          <a href="/terms/">Terms</a>
+          <a href="/privacy/">Privacy</a>
+          <a href="/download/" class="nav-cta">Download App</a>
+        </div>
       </div>
+    </nav>
 
-      <div class="nav">
-        <a href="/">Home</a>
-        <a href="/terms/">Terms of Service</a>
-        <a href="/privacy/">Privacy Policy</a>
-      </div>
-
-      <div class="content">
-        <div class="section">
-          <h2>Contact Us</h2>
-          <p>Have a question, feedback, or need assistance? We'd love to hear from you.</p>
-          <div class="contact-box">
-            <a href="mailto:support@tutorld.com">support@tutorld.com</a>
-            <p>We typically respond within 24 hours</p>
-          </div>
-        </div>
-
-        <div class="section">
-          <h2>Download the App</h2>
-          <p>Get Tutorld on your device and start improving your English today.</p>
-          <div class="download-links">
-            <a href="https://apps.apple.com/kz/app/tutorld-ai-english-tutor/id6756176744" class="download-btn download-btn-ios">
-              App Store
-            </a>
-            <a href="https://play.google.com/store/apps/details?id=com.tutorld.app" class="download-btn download-btn-android">
-              Google Play
-            </a>
-          </div>
-        </div>
-
-        <div class="section">
-          <h2>Frequently Asked Questions</h2>
-
-          <div class="faq-item">
-            <h3>How does Tutorld work?</h3>
-            <p>Tutorld uses AI to provide personalized English conversation practice. Simply speak with our AI tutor and receive instant feedback on your pronunciation, grammar, and fluency.</p>
-          </div>
-
-          <div class="faq-item">
-            <h3>Is Tutorld free to use?</h3>
-            <p>Tutorld offers both free and premium features. Download the app to explore what's available and choose the plan that works best for you.</p>
-          </div>
-
-          <div class="faq-item">
-            <h3>What languages are supported?</h3>
-            <p>Tutorld currently focuses on English learning. We support learners from various native language backgrounds.</p>
-          </div>
-
-          <div class="faq-item">
-            <h3>How do I delete my account?</h3>
-            <p>You can delete your account directly within the app settings. If you need assistance, contact us at support@tutorld.com.</p>
-          </div>
-
-          <div class="faq-item">
-            <h3>Is my data secure?</h3>
-            <p>Yes, we take data security seriously. Please review our <a href="/privacy/">Privacy Policy</a> for detailed information about how we handle your data.</p>
-          </div>
-        </div>
-
-        <div class="section">
-          <h2>Report a Bug</h2>
-          <p>Found something not working correctly? Please email us at <a href="mailto:support@tutorld.com">support@tutorld.com</a> with:</p>
-          <ul style="margin-left: 20px; margin-top: 10px;">
-            <li>Your device model and OS version</li>
-            <li>App version (found in app settings)</li>
-            <li>Description of the issue</li>
-            <li>Steps to reproduce the problem</li>
-          </ul>
-        </div>
+    <div class="page-header">
+      <div class="page-header-inner">
+        <span class="page-label">Help</span>
+        <h1 class="page-title">Support</h1>
+        <p class="page-subtitle">We're here to help</p>
       </div>
     </div>
+
+    <div class="doc-content">
+
+      <!-- Contact -->
+      <div class="contact-hero">
+        <div class="contact-hero-icon">&#9993;&#65039;</div>
+        <h2>Contact Us</h2>
+        <p>Have a question, feedback, or need assistance? We'd love to hear from you.</p>
+        <a href="mailto:support@tutorld.com" class="contact-email-btn">
+          support@tutorld.com
+        </a>
+        <p class="contact-response">We typically respond within 24 hours</p>
+      </div>
+
+      <!-- Download -->
+      <div class="download-section">
+        <h2 class="section-title">Download the App</h2>
+        <p class="section-desc">Get Tutorld on your device and start improving your English today.</p>
+        <div class="store-buttons">
+          <a href="https://apps.apple.com/kz/app/tutorld-ai-english-tutor/id6756176744" class="store-btn store-btn-ios">
+            &#63743; App Store
+          </a>
+          <a href="https://play.google.com/store/apps/details?id=com.tutorld.app" class="store-btn store-btn-android">
+            &#9654; Google Play
+          </a>
+        </div>
+      </div>
+
+      <!-- FAQ -->
+      <h2 class="section-title">Frequently Asked Questions</h2>
+      <div class="faq-list">
+        <div class="faq-item">
+          <h3>How does Tutorld work?</h3>
+          <p>Tutorld uses AI to provide personalized English conversation practice. Simply speak with our AI tutor and receive instant feedback on your pronunciation, grammar, and fluency.</p>
+        </div>
+        <div class="faq-item">
+          <h3>Is Tutorld free to use?</h3>
+          <p>Tutorld offers both free and premium features. Download the app to explore what's available and choose the plan that works best for you.</p>
+        </div>
+        <div class="faq-item">
+          <h3>What languages are supported?</h3>
+          <p>Tutorld currently focuses on English learning. We support learners from various native language backgrounds.</p>
+        </div>
+        <div class="faq-item">
+          <h3>How do I delete my account?</h3>
+          <p>You can delete your account directly within the app settings. If you need assistance, contact us at <a href="mailto:support@tutorld.com">support@tutorld.com</a>.</p>
+        </div>
+        <div class="faq-item">
+          <h3>Is my data secure?</h3>
+          <p>Yes, we take data security seriously. Please review our <a href="/privacy/">Privacy Policy</a> for detailed information about how we handle your data.</p>
+        </div>
+      </div>
+
+      <!-- Bug report -->
+      <div class="bug-section">
+        <h2 class="section-title" style="margin-bottom: 12px;">Report a Bug</h2>
+        <p>Found something not working correctly? Please email us at <a href="mailto:support@tutorld.com">support@tutorld.com</a> with:</p>
+        <ul>
+          <li>Your device model and OS version</li>
+          <li>App version (found in app settings)</li>
+          <li>Description of the issue</li>
+          <li>Steps to reproduce the problem</li>
+        </ul>
+      </div>
+
+    </div>
+
+    <footer>
+      <div class="footer-inner">
+        <a href="/" class="footer-logo">Tutorld</a>
+        <div class="footer-links">
+          <a href="/terms/">Terms of Service</a>
+          <a href="/privacy/">Privacy Policy</a>
+          <a href="/support/">Support</a>
+        </div>
+      </div>
+      <div class="footer-inner">
+        <p class="footer-copy">&copy; 2025 Tutorld. All rights reserved.</p>
+      </div>
+    </footer>
+
   </body>
 </html>

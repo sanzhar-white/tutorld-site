@@ -10,69 +10,125 @@
     <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; img-src 'self' data:;">
     <meta name="referrer" content="no-referrer">
     <style>
+        :root {
+            --primary: #0088FF;
+            --dark: #0D1117;
+            --error: #EF4444;
+        }
+
         * { margin: 0; padding: 0; box-sizing: border-box; }
+
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background: linear-gradient(135deg, #fc466b 0%, #3f5efb 100%);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            background: var(--dark);
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: white;
+            padding: 24px;
+            -webkit-font-smoothing: antialiased;
+            overflow: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: -20%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(ellipse at center, rgba(239,68,68,0.12) 0%, transparent 65%);
+            pointer-events: none;
+        }
+
+        .card {
+            position: relative;
+            z-index: 1;
+            max-width: 480px;
+            width: 100%;
+            background: #fff;
+            border-radius: 24px;
+            padding: 48px 48px;
             text-align: center;
-            padding: 20px;
+            box-shadow: 0 32px 80px rgba(0,0,0,0.4);
         }
-        .container {
-            max-width: 600px;
-            background: rgba(255, 255, 255, 0.1);
-            padding: 60px 40px;
-            border-radius: 20px;
-            backdrop-filter: blur(10px);
+
+        .mascot {
+            width: 120px;
+            height: 120px;
+            object-fit: contain;
+            margin-bottom: 8px;
         }
-        h1 {
-            font-size: 120px;
+
+        .error-code {
+            font-size: 5rem;
+            font-weight: 900;
+            color: var(--error);
+            line-height: 1;
+            letter-spacing: -4px;
+            margin-bottom: 4px;
+        }
+
+        .error-title {
+            font-size: 1.25rem;
             font-weight: 700;
-            margin-bottom: 20px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            color: #0D1117;
+            margin-bottom: 12px;
         }
-        h2 {
-            font-size: 32px;
-            margin-bottom: 20px;
-            font-weight: 300;
+
+        .error-desc {
+            font-size: 0.925rem;
+            color: #5A6370;
+            line-height: 1.65;
+            margin-bottom: 32px;
         }
-        p {
-            font-size: 18px;
-            margin-bottom: 30px;
-            opacity: 0.9;
-        }
-        a {
-            display: inline-block;
-            padding: 15px 40px;
-            background: white;
-            color: #3f5efb;
+
+        .home-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--primary);
+            color: #fff;
             text-decoration: none;
-            border-radius: 30px;
+            padding: 12px 28px;
+            border-radius: 24px;
             font-weight: 600;
-            transition: transform 0.3s, box-shadow 0.3s;
+            font-size: 0.9rem;
+            transition: background 0.2s, transform 0.15s;
         }
-        a:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+
+        .home-btn:hover {
+            background: #0070E0;
+            transform: translateY(-1px);
         }
-        @media (max-width: 768px) {
-            h1 { font-size: 80px; }
-            h2 { font-size: 24px; }
-            .container { padding: 40px 20px; }
+
+        .brand {
+            margin-top: 32px;
+            font-size: 0.8rem;
+            color: #8A949F;
+        }
+
+        .brand a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 700;
+        }
+
+        @media (max-width: 480px) {
+            .card { padding: 40px 28px; }
+            .error-code { font-size: 4.5rem; }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>500</h1>
-        <h2>Internal Server Error</h2>
-        <p>Something went wrong on our end. We're working to fix it.</p>
-        <p>Please try again later.</p>
-        <a href="/">Return Home</a>
+    <div class="card">
+        <img src="/assets/mascots/winking1.webp" alt="Sofia" class="mascot">
+        <div class="error-code">500</div>
+        <h1 class="error-title">Internal Server Error</h1>
+        <p class="error-desc">Something went wrong on our end. We're working to fix it.<br>Please try again later.</p>
+        <a href="/" class="home-btn">&#8592; Back to Home</a>
+        <p class="brand"><a href="/">Tutorld</a></p>
     </div>
 </body>
 </html>

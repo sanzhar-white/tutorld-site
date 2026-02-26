@@ -8,7 +8,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="robots" content="index, follow" />
     <!-- Security Headers -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline' https://connect.facebook.net https://eu-assets.i.posthog.com; style-src 'unsafe-inline'; connect-src https://www.facebook.com https://eu.i.posthog.com; font-src 'none'; img-src https://www.facebook.com; media-src 'none'; object-src 'none'; frame-src 'none'; base-uri 'self'; form-action 'none'; upgrade-insecure-requests; block-all-mixed-content" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline' https://connect.facebook.net https://eu-assets.i.posthog.com; style-src 'unsafe-inline'; connect-src https://www.facebook.com https://eu.i.posthog.com; font-src 'none'; img-src https://www.facebook.com 'self'; media-src 'none'; object-src 'none'; frame-src 'none'; base-uri 'self'; form-action 'none'; upgrade-insecure-requests; block-all-mixed-content" />
     <meta http-equiv="X-Content-Type-Options" content="nosniff" />
     <meta http-equiv="X-Frame-Options" content="DENY" />
     <meta http-equiv="X-XSS-Protection" content="1; mode=block" />
@@ -89,6 +89,19 @@
         box-shadow: 0 32px 80px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.05);
         border-radius: var(--radius-lg);
         text-align: center;
+      }
+
+      .mascot {
+        width: 100px;
+        height: 100px;
+        object-fit: contain;
+        margin-bottom: 4px;
+        animation: mascot-float 3s ease-in-out infinite;
+      }
+
+      @keyframes mascot-float {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-6px); }
       }
 
       .logo {
@@ -294,6 +307,7 @@
   </head>
   <body>
     <div class="container">
+      <img src="/assets/mascots/happy.webp" alt="Sofia" class="mascot">
       <div class="logo">Tutorld</div>
       <p class="subtitle">Download the app</p>
 
