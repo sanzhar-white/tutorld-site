@@ -250,11 +250,15 @@
       !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.crossOrigin="anonymous",p.async=!0,p.src=s.api_host+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+" (stub)"},o="capture identify alias people.set people.set_once set_config register register_once unregister opt_out_capturing has_opted_out_capturing opt_in_capturing reset isFeatureEnabled onFeatureFlags getFeatureFlag getFeatureFlagPayload loadFeatureFlags".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
       posthog.init('phc_CSemNWELDa7XSwJxABsyUw0E3uMd0gZpzviUQyyFrk6', {api_host: 'https://eu.i.posthog.com'});
 
-      // --- Read ref from URL path ---
-      // /download/anthony -> ref = "anthony"
-      // /download/ or /download -> ref = "direct"
+      // --- Read ref from URL ---
+      // /download/?ref=anthony (GitHub Pages via 404.html redirect) -> ref = "anthony"
+      // /download/anthony (direct path, e.g. on nginx) -> ref = "anthony"
+      // /download/ -> ref = "direct"
+      var urlParams = new URLSearchParams(window.location.search);
+      var refFromQuery = urlParams.get('ref');
       var pathParts = window.location.pathname.replace(/\/$/, '').split('/');
-      var ref = (pathParts.length >= 3 && pathParts[2]) ? pathParts[2] : 'direct';
+      var refFromPath = (pathParts.length >= 3 && pathParts[2]) ? pathParts[2] : null;
+      var ref = refFromQuery || refFromPath || 'direct';
       window._trackingRef = ref;
 
       // --- Detect platform ---
