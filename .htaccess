@@ -253,6 +253,15 @@ Options -Indexes
 </IfModule>
 
 # ============================================
+# ПЕРСОНАЛЬНЫЕ ССЫЛКИ ДЛЯ СКАЧИВАНИЯ
+# ============================================
+
+<IfModule mod_rewrite.c>
+    # /download/anthonyid -> /download/index.html
+    RewriteRule ^download/([a-zA-Z0-9_-]+)/?$ /download/index.html [L]
+</IfModule>
+
+# ============================================
 # ЗАЩИТА ОТ INJECTION АТАК
 # ============================================
 

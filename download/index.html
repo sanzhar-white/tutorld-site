@@ -8,7 +8,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="robots" content="index, follow" />
     <!-- Security Headers -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline' https://connect.facebook.net; style-src 'unsafe-inline'; connect-src https://www.facebook.com; font-src 'none'; img-src https://www.facebook.com; media-src 'none'; object-src 'none'; frame-src 'none'; base-uri 'self'; form-action 'none'; upgrade-insecure-requests; block-all-mixed-content" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline' https://connect.facebook.net https://eu-assets.i.posthog.com; style-src 'unsafe-inline'; connect-src https://www.facebook.com https://eu.i.posthog.com; font-src 'none'; img-src https://www.facebook.com; media-src 'none'; object-src 'none'; frame-src 'none'; base-uri 'self'; form-action 'none'; upgrade-insecure-requests; block-all-mixed-content" />
     <meta http-equiv="X-Content-Type-Options" content="nosniff" />
     <meta http-equiv="X-Frame-Options" content="DENY" />
     <meta http-equiv="X-XSS-Protection" content="1; mode=block" />
@@ -130,51 +130,66 @@
         }
       }
     </style>
-    <!-- Meta Pixel Code with guaranteed delivery before redirect -->
+    <!-- PostHog EU + Meta Pixel tracking with guaranteed delivery before redirect -->
     <script>
-      (function() {
-        var PIXEL_ID = '4089032671241578';
-        var ua = navigator.userAgent || navigator.vendor || window.opera;
+      // --- PostHog EU initialization ---
+      !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.crossOrigin="anonymous",p.async=!0,p.src=s.api_host+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+" (stub)"},o="capture identify alias people.set people.set_once set_config register register_once unregister opt_out_capturing has_opted_out_capturing opt_in_capturing reset isFeatureEnabled onFeatureFlags getFeatureFlag getFeatureFlagPayload loadFeatureFlags".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
+      posthog.init('phc_YOUR_KEY_HERE', {api_host: 'https://eu.i.posthog.com'});
 
-        var iosUrl = 'https://apps.apple.com/kz/app/tutorld-ai-english-tutor/id6756176744';
-        var androidUrl = 'https://play.google.com/store/apps/details?id=com.tutorld.app';
+      // --- Read ref from URL path ---
+      // /download/anthony -> ref = "anthony"
+      // /download/ or /download -> ref = "direct"
+      var pathParts = window.location.pathname.replace(/\/$/, '').split('/');
+      var ref = (pathParts.length >= 3 && pathParts[2]) ? pathParts[2] : 'direct';
+      window._trackingRef = ref;
 
-        var isIOS = /iPad|iPhone|iPod/.test(ua) && !window.MSStream;
-        var isAndroid = /Android/.test(ua);
+      // --- Detect platform ---
+      var ua = navigator.userAgent || navigator.vendor || window.opera;
+      var isIOS = /iPad|iPhone|iPod/.test(ua) && !window.MSStream;
+      var isAndroid = /Android/.test(ua);
+      var platform = isIOS ? 'ios' : isAndroid ? 'android' : 'desktop';
 
-        var redirectUrl = null;
-        if (isIOS) {
-          redirectUrl = iosUrl;
-        } else if (isAndroid) {
-          redirectUrl = androidUrl;
+      var iosUrl = 'https://apps.apple.com/kz/app/tutorld-ai-english-tutor/id6756176744';
+      // For Android: pass referrer in Play Store URL for install tracking
+      var androidUrl = 'https://play.google.com/store/apps/details?id=com.tutorld.app'
+        + '&referrer=utm_source%3D' + encodeURIComponent(ref);
+
+      var redirectUrl = isIOS ? iosUrl : isAndroid ? androidUrl : null;
+
+      // --- Track link visit ---
+      posthog.capture('link_visited', {ref: ref, platform: platform});
+
+      // --- Update Android button href with correct referrer ---
+      document.addEventListener('DOMContentLoaded', function() {
+        var btn = document.getElementById('android-btn');
+        if (btn) btn.href = androidUrl;
+      });
+
+      // --- Meta Pixel + redirect ---
+      var PIXEL_ID = '4089032671241578';
+      var pixelSent = false;
+      var pixelUrl = 'https://www.facebook.com/tr?id=' + PIXEL_ID + '&ev=PageView&noscript=1';
+
+      function doRedirect() {
+        if (redirectUrl && !pixelSent) {
+          pixelSent = true;
+          posthog.capture('download_started', {ref: ref, platform: platform});
+          window.location.replace(redirectUrl);
         }
+      }
 
-        // Send Facebook Pixel via Image and wait for confirmation
-        var pixelSent = false;
-        var pixelUrl = 'https://www.facebook.com/tr?id=' + PIXEL_ID + '&ev=PageView&noscript=1';
+      var img = new Image(1, 1);
+      img.onload = doRedirect;
+      img.onerror = doRedirect; // Redirect even if pixel fails
+      img.src = pixelUrl;
 
-        function doRedirect() {
-          if (redirectUrl && !pixelSent) {
-            pixelSent = true;
-            window.location.replace(redirectUrl);
-          }
-        }
-
-        var img = new Image(1, 1);
-        img.onload = doRedirect;
-        img.onerror = doRedirect; // Redirect even if pixel fails
-        img.src = pixelUrl;
-
-        // Fallback: redirect after 3 seconds if pixel hasn't loaded
-        if (redirectUrl) {
-          setTimeout(doRedirect, 3000);
-        }
-      })();
+      // Fallback: redirect after 3 seconds if pixel hasn't loaded
+      if (redirectUrl) { setTimeout(doRedirect, 3000); }
     </script>
     <noscript><img height="1" width="1" style="display:none"
     src="https://www.facebook.com/tr?id=4089032671241578&ev=PageView&noscript=1"
     /></noscript>
-    <!-- End Meta Pixel Code -->
+    <!-- End PostHog EU + Meta Pixel Code -->
   </head>
   <body>
     <div class="container">
@@ -182,10 +197,15 @@
       <p class="subtitle">Download the app</p>
 
       <div class="store-buttons">
-        <a href="https://apps.apple.com/kz/app/tutorld-ai-english-tutor/id6756176744" class="store-btn store-btn-ios">
+        <a href="https://apps.apple.com/kz/app/tutorld-ai-english-tutor/id6756176744"
+           onclick="if(window.posthog) posthog.capture('download_clicked', {ref: window._trackingRef, platform: 'ios', store: 'appstore'})"
+           class="store-btn store-btn-ios">
           <span class="store-icon">&#63743;</span> App Store
         </a>
-        <a href="https://play.google.com/store/apps/details?id=com.tutorld.app" class="store-btn store-btn-android">
+        <a href="https://play.google.com/store/apps/details?id=com.tutorld.app&referrer=utm_source%3Ddirect"
+           id="android-btn"
+           onclick="if(window.posthog) posthog.capture('download_clicked', {ref: window._trackingRef, platform: 'android', store: 'googleplay'})"
+           class="store-btn store-btn-android">
           <span class="store-icon">&#9654;</span> Google Play
         </a>
       </div>
